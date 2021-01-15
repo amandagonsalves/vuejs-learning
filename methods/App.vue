@@ -2,7 +2,14 @@
   <div>
     <h1>Lista de tarefas</h1>
     <button @click="handleShowHideList">Ver lista</button>
-    <input v-focus>
+    <input 
+      v-focus 
+      v-model="currentTask"
+      @keyup.enter="handleAdd"
+    >
+    <button @click="handleAdd">Adicionar</button>
+
+
     <table v-if="showList">
       <thead>
         <tr>
@@ -15,7 +22,8 @@
         <tr 
           v-for="(task, index) in tasks" 
           :key="`${task}-${index}`"
-          @dblclick="complete(task)">
+          @dblclick="complete(task)"
+          class="task-item">
 
           <td 
           :class="{
@@ -23,7 +31,7 @@
           }">
             {{ task.title }}
           </td>
-          
+
           <td>{{ task.isDone ? 'Sim' : 'Não' }}</td>
           <button @click="handleRemove(task)">&times;</button>
         </tr>
@@ -47,6 +55,7 @@ export default {
     focus
   },
   data: () => ({
+    currentTask: '',
     showList: false,
     tasks:[
       {
@@ -60,6 +69,14 @@ export default {
     ]
   }),
   methods: {
+    handleAdd() {
+      this.tasks.push({
+        title: this.currentTask,
+        isDone: false
+      });
+
+      this.currentTask = '';
+    },
     handleShowHideList() {
       this.showList = !this.showList;
     },
@@ -94,5 +111,9 @@ export default {
 
   .line {
     text-decoration: line-through;
+  }
+
+  .task-item {
+    cursor: pointer;
   }
 </style>

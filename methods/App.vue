@@ -13,9 +13,17 @@
 
       <tbody>
         <tr 
-          v-for="(task, index) in tasks" :key="`${task}-${index}`"
+          v-for="(task, index) in tasks" 
+          :key="`${task}-${index}`"
           @dblclick="complete(task)">
-          <td>{{ task.title }}</td>
+
+          <td 
+          :class="{
+            'line': task.isDone
+          }">
+            {{ task.title }}
+          </td>
+          
           <td>{{ task.isDone ? 'Sim' : 'Não' }}</td>
           <button @click="handleRemove(task)">&times;</button>
         </tr>
@@ -82,5 +90,9 @@ export default {
 
   td, th {
     padding: .3rem;
+  }
+
+  .line {
+    text-decoration: line-through;
   }
 </style>
